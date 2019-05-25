@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,7 +32,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-
     TextEditingController controller = TextEditingController();
 
     void _clear() {
@@ -39,28 +39,41 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     void _showSuccessSnackBar() {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: const Text('Success!', style: TextStyle(color: Colors.lightGreen),),
-        )
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: const Text(
+          'Success!',
+          style: TextStyle(color: Colors.lightGreen),
+        ),
+      ));
     }
 
     void _showErrorSnackBar() {
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: const Text('Error, something went wrong!', style: TextStyle(color: Colors.red),),
-          )
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: const Text(
+          'Error, something went wrong!',
+          style: TextStyle(color: Colors.red),
+        ),
+      ));
     }
 
-    void _submit() {
+    void _submitWithValue(String value) {
       var doc = Firestore.instance.collection('url').document('url');
-      doc.setData(<String, String>{'target': controller.value.text}).then((_) {
+      doc.setData(<String, String>{'target': value}).then((_) {
         _showSuccessSnackBar();
       }).catchError((error) {
         _showErrorSnackBar();
       });
+    }
+
+    void _oneClick() {
+      Clipboard.getData('text/plain').then((data){
+        controller.text = data.text;
+        _submitWithValue(data.text);
+      });
+    }
+
+    void _submit() {
+      _submitWithValue(controller.value.text);
     }
 
     return Scaffold(
@@ -99,7 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Submit'),
                 ),
               ],
-            )
+            ),
+            RaisedButton(
+              onPressed: _oneClick,
+              textColor: Colors.white,
+              color: Colors.green,
+              child: Text('Submit from clipboard'),
+            ),
           ],
         ),
       ),

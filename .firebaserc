@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "dynamic-redirect-e0e7c",
+    "prod": "dynamic-redirect-e0e7c"
+  }
+}

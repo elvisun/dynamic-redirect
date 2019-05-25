@@ -34,7 +34,7 @@
 
       // add http to url if it doesn't exist
       const prefix = 'http://';
-      if (url.substr(0, prefix.length) !== prefix) {
+      if (url.substr(0, 6) !== 'http://' || url.substr(0, 7) !== 'https://') {
           url = prefix + url;
       }
 

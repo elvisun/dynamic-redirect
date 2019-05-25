@@ -34,8 +34,8 @@
 
       // add http to url if it doesn't exist
       const prefix = 'http://';
-      if (url.substr(0, 6) !== 'http://' || url.substr(0, 7) !== 'https://') {
-          url = prefix + url;
+      if (url.toLowerCase().substr(0, 7) !== 'http://' && url.toLowerCase().substr(0, 8) !== 'https://') {
+        url = prefix + url;
       }
 
       link.setAttribute('href', url);

@@ -19,7 +19,7 @@
   </head>
   <body>
     <div id="message">
-      <a id="link" target="_blank">Redirect me!</a>
+      <a id="link" target="_blank">Redirecting in 3 seconds, or click here!</a>
     </div>
     <p id="load"><a href="https://github.com/elvisun/dynamic-redirect">by elvisun@</a></p>
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
@@ -39,6 +39,10 @@
       }
 
       link.setAttribute('href', url);
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 3000)
     })
   </script>
   </body>

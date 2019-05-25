@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(MyApp());
+
+final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,19 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -48,11 +38,33 @@ class _MyHomePageState extends State<MyHomePage> {
       controller.clear();
     }
 
-    void _submit() {
+    void _showSuccessSnackBar() {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: const Text('Success!', style: TextStyle(color: Colors.lightGreen),),
+        )
+      );
+    }
 
+    void _showErrorSnackBar() {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: const Text('Error, something went wrong!', style: TextStyle(color: Colors.red),),
+          )
+      );
+    }
+
+    void _submit() {
+      var doc = Firestore.instance.collection('url').document('url');
+      doc.setData(<String, String>{'target': controller.value.text}).then((_) {
+        _showSuccessSnackBar();
+      }).catchError((error) {
+        _showErrorSnackBar();
+      });
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
       ),

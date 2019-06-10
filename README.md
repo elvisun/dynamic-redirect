@@ -10,6 +10,6 @@ Finally I decided to make an app to solve this first world problem.
 1. Config the url using the flutter app on your phone. (Or on firebase console on your laptop)
 ![config](./config.gif)
 
-2. Go to https://dynamic-redirect-e0e7c.firebaseapp.com on your tv browser
+2. Go to https://dynamic-redirect-xxxxx.firebaseapp.com on your tv browser
 
 3. Get redirected and enjoy the movie
